@@ -1,0 +1,40 @@
+name: Surveillance CROUS
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # toutes les 5 min (GitHub peut prendre un peu de retard)
+  workflow_dispatch:         # bouton "Run workflow" pour lancer à la main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crous
+  cancel-in-progress: false
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Vérifier les logements
+        run: python crous_la_rochelle.py
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          RUN_ONCE: "1"
+
+      - name: Sauvegarder les logements déjà vus
+        run: |
+          if [ -f logements_vus.json ]; then
+            git config user.name "crous-bot"
+            git config user.email "crous-bot@users.noreply.github.com"
+            git add logements_vus.json
+            git diff --cached --quiet || (git commit -m "MAJ logements vus" && git push)
+          fi
