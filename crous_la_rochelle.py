@@ -50,13 +50,18 @@ def log(msg):
 
 
 def notifier(titre, message, lien=None, priorite=5):
+    if not NTFY_TOPIC:
+        log("ERREUR : NTFY_TOPIC est vide, vérifie le secret GitHub.")
+        return
     corps = {"topic": NTFY_TOPIC, "title": titre, "message": message,
              "priority": priorite, "tags": ["house", "rotating_light"]}
     if lien:
         corps["click"] = lien
         corps["actions"] = [{"action": "view", "label": "Voir l'annonce", "url": lien}]
     try:
-        requests.post("https://ntfy.sh", json=corps, timeout=20)
+        r = requests.post("https://ntfy.sh", json=corps, timeout=20)
+        if r.status_code != 200:
+            log(f"ntfy a refusé la notification : {r.status_code} {r.text[:200]}")
     except requests.RequestException as e:
         log(f"Erreur ntfy : {e}")
 
