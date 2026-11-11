@@ -24,8 +24,8 @@ NTFY_TOPIC = os.getenv("NTFY_TOPIC", "")
 RUN_ONCE = os.getenv("RUN_ONCE") == "1"
 
 # Zone surveillée : La Rochelle + Lagord, Aytré, Puilboreau, Périgny
-LON_OUEST, LAT_NORD = -5.5, 51.5
-LON_EST, LAT_SUD = -9.8, 41.0
+LON_OUEST, LAT_NORD = -1.26, 46.21
+LON_EST, LAT_SUD = -1.04, 46.11
 
 PRIX_MAX_EUROS = None   # ex : 450 ; None = pas de limite
 INTERVALLE = 120        # secondes entre deux vérifications
