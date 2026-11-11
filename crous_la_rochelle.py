@@ -18,7 +18,7 @@ import requests
 # ============ CONFIGURATION ============
 
 # Nom long et unique : sur ntfy.sh, toute personne qui le connaît peut lire tes notifs.
-NTFY_TOPIC = os.getenv("NTFY_TOPIC", "crous-yohann-a-changer-x7k2p9")
+NTFY_TOPIC = os.getenv("NTFY_TOPIC", "crous-lr-babyboo")
 
 # RUN_ONCE=1 : une seule vérification puis arrêt (mode GitHub Actions)
 RUN_ONCE = os.getenv("RUN_ONCE") == "1"
